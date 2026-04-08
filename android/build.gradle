@@ -5,8 +5,8 @@ buildscript {
         buildToolsVersion = "35.0.0"
         minSdkVersion = 24
         compileSdkVersion = 35
-        targetSdkVersion = 34
-        ndkVersion = "25.1.8937393"
+        targetSdkVersion = 35
+        ndkVersion = "27.0.12077973"
         kotlinVersion = "1.9.22"
     }
     repositories {
@@ -67,6 +67,19 @@ allprojects {
                 }
                 buildFeatures {
                     buildConfig = true
+                }
+                // NDK 27 (Clang 18) promotes two C++20 warnings to errors in reanimated 3.6.x.
+                // Suppress only those two flags so the rest of -Werror remains active.
+                if (project.name == 'react-native-reanimated') {
+                    defaultConfig {
+                        externalNativeBuild {
+                            cmake {
+                                // -Wno-error=X prevents the specific warning from becoming an error
+                                // regardless of flag order (-Wall -Werror come later in the command).
+                                cppFlags('-Wno-error=vla-cxx-extension', '-Wno-error=deprecated-this-capture')
+                            }
+                        }
+                    }
                 }
             }
             tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
