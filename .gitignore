@@ -1,3 +1,6 @@
+# Website (separate repository)
+WEB/
+
 # Node
 node_modules/
 npm-debug.log
@@ -53,7 +56,3 @@ local.properties
 
 # Typescript
 *.tsbuildinfo
-
-
-# WEB
-WEB/
