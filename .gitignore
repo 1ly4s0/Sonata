@@ -53,3 +53,7 @@ local.properties
 
 # Typescript
 *.tsbuildinfo
+
+
+# WEB
+WEB/

@@ -2,6 +2,8 @@
 
 **Beautiful, fast, and feature-rich offline music player for Android.**
 
+> 🌐 **Translations:** [Español](README.es.md) · [Français](README.fr.md) · [Português](README.pt.md)
+
 ---
 
 ## Features
