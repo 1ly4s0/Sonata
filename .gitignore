@@ -1,0 +1,55 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# React Native
+.expo/
+.expo-shared/
+.bundle/
+__pycache__/
+
+# Android generated JS bundle (created automatically during release builds)
+android/app/src/main/assets/index.android.bundle
+android/app/src/main/assets/index.android.bundle.map
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/captures/
+android/app/src/main/assets/
+*.jks
+*.keystore
+!android/app/debug.keystore
+
+# Firebase — contains API keys, never commit
+android/app/google-services.json
+
+# Signing credentials — passwords in plaintext, never commit
+android/keystore.properties
+
+# iOS (not used, but just in case)
+ios/build/
+ios/Pods/
+ios/*.xcworkspace
+ios/DerivedData/
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
+
+# Misc
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+.idea/
+.vscode/
+*.iml
+local.properties
+
+# Typescript
+*.tsbuildinfo
