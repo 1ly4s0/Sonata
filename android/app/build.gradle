@@ -41,7 +41,7 @@ android {
         applicationId "com.tecnobros.sonata"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
+        versionCode 3
         versionName "1.0.0"
         multiDexEnabled true
     }
@@ -139,6 +139,28 @@ afterEvaluate {
             def copyFontsTask = tasks.findByName('copyReactNativeVectorIconFonts')
             if (copyFontsTask) {
                 task.mustRunAfter(copyFontsTask)
+            }
+        }
+
+        // ── 16KB Page Size Fix ─────────────────────────────────────────────────
+        // Patch all 64-bit .so ELF files to have 16KB-aligned PT_LOAD segments.
+        // Required for Android 15+ devices with 16KB memory pages (e.g. Pixel 9+).
+        if (task.name == "mergeReleaseNativeLibs" || task.name == "stripReleaseDebugSymbols") {
+            task.doLast {
+                def patchScript = rootProject.file("scripts/patch_elf_16k.py").absolutePath
+                def candidates = [
+                    new File("${buildDir}/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib"),
+                    new File("${buildDir}/intermediates/merged_native_libs/release/out/lib"),
+                    new File("${buildDir}/intermediates/stripped_native_libs/release/stripReleaseDebugSymbols/out/lib"),
+                    new File("${buildDir}/intermediates/stripped_native_libs/release/out/lib"),
+                ]
+                candidates.each { libsDir ->
+                    if (libsDir.exists()) {
+                        exec {
+                            commandLine "python", patchScript, libsDir.absolutePath
+                        }
+                    }
+                }
             }
         }
     }
